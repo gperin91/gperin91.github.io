@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+		<link rel="icon" type="image/x-icon" href="/imgs/favicon.ico">
+        <!-- Unified CSS -->
+        <link rel="stylesheet" href="/style.css" />
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a href="/index.html">Home</a> |
+                <a href="/progetti.html">Progetti</a>
+            </nav>
+        </header>
+
+        <main><h1 id="new-website">New website</h1>
+<p>Date: 2025-08-28</p>
+<hr />
+<p>My August has been spent relaxing and staying away from work and from
+computers as much as possible. As I am gearing up to come back to the
+grind, I have decided to ramp things up gradually. So I found myself
+rewriting my website from scratch, and here is the logbook.</p>
+<h3 id="the-problem">The problem</h3>
+<p>Up until now, I have been using the <em>very nice</em> <a
+href="https://github.com/alshedivat/al-folio">al-folio</a> Jekyll
+template. It is as fully-fledged as one may want. In my case, however,
+it is a bit <em>too</em> complex. I really only need a landing page with
+contacts, a list of papers I have worked on, and some super basic blog
+thing that supports maths typesetting, images and codeblocks.
+Furthermore, in exchange for this plethora of possibilities, I had to
+keep a Jekyll toolchain around, as well as a Ruby installation.</p>
+<p>I update this website way too infrequently to justify all of this
+toolchain-friction. So I was looking for something a bit simpler.</p>
+<h3 id="the-requirements">The requirements</h3>
+<p>Basically, I want to have a set of markdown files where I write down
+stuff and a very simple command that turns everything into a bundle of
+HTML files that are reasonably interlinked. A lightweight system allows
+for quicker write-deploy cycles, so if rubbish appears in the deployed
+site I can fix it quickly.</p>
+<h3 id="the-tools">The tools</h3>
+<p>All of this has a solution: <a href="https://pandoc.org/">pandoc</a>
+with some CSS template. It plays nicely with <a
+href="https://www.mathjax.org/">MathJax</a> for maths typesetting, and
+it is a tool I have used a lot in the past. The secret sauce, then, is
+to ask Claude Sonnet 4 to come up with the skeleton.</p>
+<h3 id="the-result">The result</h3>
+<p>Well, you are looking at the result right now. The structure of the
+directory is the following:</p>
+<pre><code>website
+├── Makefile
+├── src/
+│   ├── index.md
+│   ├── template.html
+│   ├── style.css
+│   ├── blog.md
+│   ├── papers.md
+│   ├── blog/
+│   │   ├── post1.md
+│   │   └── post2.md
+│   └── imgs/
+│       ├── avatar.jpg
+│       └── post1/
+│           ├── img1.png
+│           └── img2.png
+└── build/
+    ├── index.html
+    ├── blog.html
+    ├── papers.html
+    ├── blog/
+    │   ├── post1.html
+    │   └── post2.html
+    └── imgs/
+        ├── avatar.jpg
+        └── post1/
+            ├── img1.png
+            └── img2.png</code></pre>
+<p>Basically, <code>build</code> contains the HTML versions of the
+markdown files in <code>src</code>, as specified by
+<code>template.html</code> and <code>style.css</code>.</p>
+<p>The secret sauce is then the <code>Makefile</code>. It basically
+calls <code>pandoc</code> with all the appropriate flags, copies files,
+and all that jazz. It also deals with the maths typesetting. Really
+sweet.</p>
+<h3 id="version-control-and-deployment">Version control and
+deployment</h3>
+<p>The only <code>git</code>-controlled folder is <code>build</code>,
+which only contains HTML files. Deployment happens by calling
+<code>make deploy</code>, which adds-commits-pushes the changes in
+<code>build</code> to the Github pages repo. The actual deployment is
+super quick, as all the HTML is ready to be displayed.</p>
+<p>Let’s see how long it takes for me to become unhappy at this system.
+I am rather optimistic for now however.</p></main>
+    </body>
+</html>
